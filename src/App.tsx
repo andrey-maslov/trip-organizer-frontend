@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import { MainPage } from './pages/main/MainPage';
+import { TripPage } from './pages/trip/TripPage';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { PageLayout } from './components/Layout/PageLayout';
+import 'antd/dist/reset.css';
 
-function App() {
+const queryClient = new QueryClient();
+
+export function App(): JSX.Element {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <PageLayout>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="trip/:id" element={<TripPage />} />
+          <Route path="*" element={<p>There&apos;s nothing here: 404!</p>} />
+        </Routes>
+      </PageLayout>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
-
-export default App;
