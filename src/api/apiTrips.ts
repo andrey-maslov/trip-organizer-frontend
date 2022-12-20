@@ -7,13 +7,15 @@ export type Params = {
   _id?: number;
 };
 
+axios.defaults.headers.common['authorization'] = process.env.REACT_APP_MONGO_API_KEY;
+
 // TODO add serialization for params and handle them on BE
 export const fetchTrips = async (params: Params): Promise<Trip[]> => {
   return axios.get(API.TRIPS).then((res) => res.data);
 };
 
 export const fetchOneTrip = async (id: string): Promise<Trip> => {
-  return axios.get(`${API.TRIPS}/${id}`).then((res) => res.data);
+  return axios.get(`${API.TRIPS}?id=${id}`).then((res) => res.data);
 };
 
 export const createTrip = async (newTrip: Trip): Promise<Trip> => {
@@ -25,9 +27,9 @@ export const updateTrip = async (newTrip: Trip): Promise<Trip> => {
 }
 
 export const removeTrip = async (id: string): Promise<Trip> => {
-  return axios.delete(`${API.TRIPS}/${id}`).then((res) => res.data);
+  return axios.delete(`${API.TRIPS}?id=${id}`).then((res) => res.data);
 }
 
 export const addTripSection = async (tripId: string, sectionData: Section): Promise<Trip> => {
-  return axios.put(`${API.TRIPS}/${tripId}`, sectionData).then((res) => res.data);
+  return axios.put(`${API.TRIPS}?id=${tripId}`, sectionData).then((res) => res.data);
 }

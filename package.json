@@ -2,6 +2,7 @@
   "name": "trip-organizer-frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8787",
   "dependencies": {
     "antd": "^5.0.7",
     "axios": "^1.2.1",

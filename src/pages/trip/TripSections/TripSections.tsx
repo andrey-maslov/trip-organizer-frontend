@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC } from "react";
 import {
   Button,
   Divider,
@@ -7,23 +7,23 @@ import {
   Typography,
   Checkbox,
   CheckboxOptionType,
-} from 'antd';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
+} from "antd";
+import type { CheckboxValueType } from "antd/es/checkbox/Group";
 
-import { getColumns } from '../TripPage.data';
+import { getColumns } from "../TripPage.data";
 import {
   TripSectionModal,
   TripSectionValues,
-} from '../TripSectionModal/TripSectionModal';
-import { Section, Trip } from '../../../models/models';
-import styles from './trip-sections.module.scss';
-import { useMutation, useQueryClient } from 'react-query';
-import { updateTrip } from '../../../api/apiTrips';
+} from "../TripSectionModal/TripSectionModal";
+import { Section, Trip } from "../../../models/models";
+import styles from "./trip-sections.module.scss";
+import { useMutation, useQueryClient } from "react-query";
+import { updateTrip } from "../../../api/apiTrips";
 import {
   DEFAULT_CURRENCY,
   sectionTypesList,
-} from '../../../constants/system.constants';
-import { getTotalValues } from '../../../services/TotalValues.service';
+} from "../../../constants/system.constants";
+import { getTotalValues } from "../../../services/TotalValues.service";
 
 const { Title } = Typography;
 const CheckboxGroup = Checkbox.Group;
@@ -46,7 +46,7 @@ export const TripSections: FC<TripSectionsProps> = ({ trip }) => {
   const [checkedList, setCheckedList] =
     useState<CheckboxValueType[]>(defaultCheckedList);
 
-  const [currentSectionId, setCurrentSectionId] = useState('');
+  const [currentSectionId, setCurrentSectionId] = useState("");
 
   const totalValues = getTotalValues(trip);
 
@@ -60,7 +60,7 @@ export const TripSections: FC<TripSectionsProps> = ({ trip }) => {
   const addSectionMutation = useMutation(updateTrip, {
     onSuccess: () => {
       setOpen(false);
-      void queryClient.invalidateQueries(['trip', trip._id]);
+      void queryClient.invalidateQueries(["trip", trip._id]);
     },
   });
 
@@ -93,13 +93,16 @@ export const TripSections: FC<TripSectionsProps> = ({ trip }) => {
   // Get cells structure and render rules with passing 2 callbacks there as buttons click handlers
   const columns = getColumns(onSectionRemove, onUpdateButtonClick);
 
-  const data: Section[] = trip.sections
-    .filter((section) => checkedList.includes(section.type))
-    .map((section, index) => ({
-      ...section,
-      index: ++index,
-      key: section.name,
-    }));
+  const data: Section[] =
+    trip.sections && trip.sections.length > 0
+      ? trip.sections
+          .filter((section) => checkedList.includes(section.type))
+          .map((section, index) => ({
+            ...section,
+            index: ++index,
+            key: section.name,
+          }))
+      : [];
 
   return (
     <>
@@ -133,7 +136,7 @@ export const TripSections: FC<TripSectionsProps> = ({ trip }) => {
             type="primary"
             shape="circle"
             onClick={() => {
-              setCurrentSectionId('');
+              setCurrentSectionId("");
               setOpen(true);
             }}
           >
