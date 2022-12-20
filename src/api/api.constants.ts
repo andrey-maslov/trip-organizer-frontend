@@ -1,4 +1,4 @@
-const apiPathProd = 'https://trip-organizer-backend.andrei-maslau.workers.dev';
+const apiPathProd = 'https://add-cors-to-requests.andrei-maslau.workers.dev';
 const apiPathDev = 'http://localhost:8787';
 
 const isDev = process.env.NODE_ENV === 'development'
